@@ -2,9 +2,11 @@ import sqlite3
 import numpy as np
 import logging
 import os
+import io
 from typing import List, Dict, Any, Optional
 from pathlib import Path
-from loguru import logger
+
+logger = logging.getLogger(__name__)
 
 DB_FILE = os.path.join(os.path.dirname(__file__), '..', 'data', 'vectors.db')
 DB_DIR = os.path.dirname(DB_FILE)
