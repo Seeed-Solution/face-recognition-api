@@ -1,0 +1,53 @@
+[project]
+name = "face-embed-api"
+version = "1.0.0"
+description = "基于Hailo-8 AI加速器的高性能人脸特征提取服务"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi==0.104.1",
+    "uvicorn[standard]==0.24.0.post1",
+    "pydantic==2.5.0",
+    "numpy==1.26.2",
+    "opencv-python==4.8.1.78",
+    "scikit-image==0.22.0",
+    "requests==2.31.0",
+    "httpx==0.25.2",
+    "pytest==7.4.3",
+    "hailort==4.21.0"
+]
+
+# Hailo Runtime Dependencies - REQUIRED
+# =====================================
+# IMPORTANT: HailoRT MUST be installed for this service to work
+# 
+# 1. Download HailoRT from: https://hailo.ai/developer-zone/software-downloads/
+#    Required files:
+#    - hailort-4.21.0-cp311-cp311-linux_aarch64.whl (for Python)
+#    - hailort_4.21.0_arm64.deb (system package)
+#    - hailort-pcie-driver_4.21.0_all.deb (PCIe driver)
+#
+# 2. System Configuration Required:
+#    Follow setup guide: https://wiki.seeedstudio.com/benchmark_of_multistream_inference_on_raspberrypi5_with_hailo8/#install-tapps
+#    
+#    Key steps:
+#    - Install system packages: sudo dpkg -i hailort_4.21.0_arm64.deb
+#    - Install PCIe driver: sudo dpkg -i hailort-pcie-driver_4.21.0_all.deb
+#    - Configure PCIe settings: echo "options hailo_pci force_desc_page_size=4096" | sudo tee /etc/modprobe.d/hailo_pci.conf
+#    - Install Python wheel: pip install hailort-4.21.0-cp311-cp311-linux_aarch64.whl
+#    - Reboot system: sudo reboot
+#
+# 3. Hardware Requirements:
+#    - Raspberry Pi 5 with Hailo-8 AI Kit
+#    - PCIe connection properly configured
+#    - At least 4GB RAM recommended
+#
+# 4. Model Requirements:
+#    - Place HEF model file at: /home/harvest/face_embed_api/models/arcface_mobilefacenet.hef
+#    - Or set FACE_RECOGNITION_HEF environment variable to model path
+#
+# NOTE: Service will NOT start without proper HailoRT installation
+
+[tool.uv.sources]
+# Uncomment and update path when HailoRT wheel is downloaded locally
+hailort = { path = "./hailort-4.21.0/hailort-4.21.0-cp311-cp311-linux_aarch64.whl" }
